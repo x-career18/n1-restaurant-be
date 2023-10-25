@@ -1,9 +1,15 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const mongooseDelete = require("mongoose-delete");
+const { Seq } = require("./Seq");
 
 const OrderSchema = new Schema(
   {
+    _id: {
+      type: Number,
+      alias: "id",
+      required: true,
+    },
     item: String,
     quantity: Number,
     discount: Number,
@@ -15,6 +21,14 @@ const OrderSchema = new Schema(
 OrderSchema.plugin(mongooseDelete, {
   deletedAt: true,
   overrideMethods: "all",
+});
+
+OrderSchema.pre('save', async function () {
+  // Don't increment if this is NOT a newly created document
+  if (!this.isNew) return;
+
+  const count = await Seq.increment('Order');
+  this._id = count;
 });
 
 const Order = mongoose.model("Order", OrderSchema);
