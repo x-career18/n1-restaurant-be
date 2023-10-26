@@ -9,7 +9,6 @@ const ReservationSchema = new Schema(
     _id: {
       type: Number,
       alias: "id",
-      required: true,
     },
     fullname: String,
     phoneNo: String,

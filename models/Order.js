@@ -8,7 +8,6 @@ const OrderSchema = new Schema(
     _id: {
       type: Number,
       alias: "id",
-      required: true,
     },
     item: String,
     quantity: Number,
