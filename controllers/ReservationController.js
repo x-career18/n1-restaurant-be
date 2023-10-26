@@ -20,10 +20,16 @@ class ReservationController {
     } = req.body;
 
     if (!fullname) throw new Error("FullName Missing.!");
+    if (!phoneNo) throw new Error("phoneNo Missing.!");
+    if (!restaurantId) throw new Error("restaurantId Missing.!");
+    if (!tableId) throw new Error("tableId Missing.!");
+    if (!tableCount) throw new Error("tableCount Missing.!");
+    if (!checkinTime) throw new Error("checkinTime Missing.!");
+    if (!expiredTime) throw new Error("expiredTime Missing.!");
 
     let orderItem = [];
     if (order?.length > 0) {
-      orderItem = orderItem;
+      orderItem = order;
     }
 
     const model = new Reservation({
