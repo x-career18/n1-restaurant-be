@@ -9,7 +9,6 @@ const ReservationSchema = new Schema(
     _id: {
       type: Number,
       alias: "id",
-      required: true,
     },
     fullname: String,
     phoneNo: String,
@@ -25,7 +24,15 @@ const ReservationSchema = new Schema(
       type: Number,
       required: true,
     },
-    order: [OrderSchema],
+    order: {
+      type: [{
+        _id: false,
+        item: String,
+        quantity: Number,
+        discount: Number,
+        total: Number,
+      }],
+    },
     checkinTime: {
       type: Date,
       required: true,

@@ -17,17 +17,19 @@ class ReservationController {
       order,
       checkinTime,
       expiredTime,
-      status
     } = req.body;
 
-    // console.log("ReservationController - CREATE", req.body);
-    let orderItem = {};
-    if (order) {
-      const orderModel = new Order({
-        _id: 0,
-        ...order
-      });
-      orderItem = await orderModel.save();
+    if (!fullname) throw new Error("FullName Missing.!");
+    if (!phoneNo) throw new Error("phoneNo Missing.!");
+    if (!restaurantId) throw new Error("restaurantId Missing.!");
+    if (!tableId) throw new Error("tableId Missing.!");
+    if (!tableCount) throw new Error("tableCount Missing.!");
+    if (!checkinTime) throw new Error("checkinTime Missing.!");
+    if (!expiredTime) throw new Error("expiredTime Missing.!");
+
+    let orderItem = [];
+    if (order?.length > 0) {
+      orderItem = order;
     }
 
     const model = new Reservation({
@@ -40,7 +42,7 @@ class ReservationController {
       order: orderItem,
       checkinTime,
       expiredTime,
-      status
+      status: 0
     });
 
     const dateRes = await model.save();
