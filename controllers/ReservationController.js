@@ -1,9 +1,11 @@
 const { Reservation } = require("../models/Reservation");
+const { Table } = require("../models/Table");
 const resClientData = require("../utils/resClientData");
 
 class ReservationController {
   async index(req, res) {
-    resClientData(res, 200, "ReservationController - INDEX");
+    const dateRes = await Reservation.find();
+    resClientData(res, 200, dateRes, "ReservationController - INDEX");
   }
 
   async create(req, res) {
