@@ -18,9 +18,9 @@ class ComboController {
     } = req.body;
 
     if (!name) throw new Error("name Missing.!");
-    if (!price) throw new Error("name Missing.!");
-    if (!catogory) throw new Error("address Missing.!");
-    if (!countMenu) throw new Error("openingTime Missing.!");
+    if (!price) throw new Error("price Missing.!");
+    if (!catogory) throw new Error("catogory Missing.!");
+    if (!countMenu) throw new Error("countMenu Missing.!");
     if (!description) throw new Error("description Missing.!");
     if (!images) throw new Error("images Missing.!");
 
