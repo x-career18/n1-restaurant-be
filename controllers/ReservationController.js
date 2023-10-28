@@ -59,6 +59,16 @@ class ReservationController {
 
     resClientData(res, 200, dateRes, "ReservationController - GETBYID");
   }
+
+  async getByTableId(req, res) {
+    const split = req.query["tableId"];
+    const id = split.split(",").map(Number);
+
+    console.log("ReservationController - GETBYTABLEID", id);
+    const dateRes = await Reservation.findOne({ ["tableId"]: { $in: id } });
+
+    resClientData(res, 200, dateRes, "ReservationController - GETBYTABLEID");
+  }
 }
 
 module.exports = new ReservationController();
