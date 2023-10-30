@@ -59,6 +59,37 @@ class ReservationController {
 
     resClientData(res, 200, dateRes, "ReservationController - GETBYID");
   }
+
+  async getByTableId(req, res) {
+    const split = req.query["tableId"];
+    const id = split.split(",").map(Number);
+
+    const dateRes = await Reservation.findOne({ ["tableId"]: { $in: id }, ["status"]: 0 });
+
+    resClientData(res, 200, dateRes, "ReservationController - GETBYTABLEID");
+  }
+
+  async getAllByRestaurantId(req, res) {
+    const id = req.query["restaurantId"];
+    const status = req.query["status"];
+
+    let query = { ["restaurantId"]: id, ["status"]: 0 };
+    if (status) {
+      query["status"] = status;
+    }
+
+    const dateRes = await Reservation.find(query);
+
+    resClientData(res, 200, dateRes, "ReservationController - GETALLBYRESTAURANTID");
+  }
+
+  async checkInReservation(req, res) {
+    const id = req.query["reservationId"];
+
+    const dateRes = await Reservation.findOneAndUpdate({ ["_id"]: id }, { ["status"]: 3 }, { returnDocument: 'after' });
+
+    resClientData(res, 200, dateRes, "ReservationController - checkInReservation");
+  }
 }
 
 module.exports = new ReservationController();

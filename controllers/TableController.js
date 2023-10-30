@@ -41,12 +41,42 @@ class TableController {
     resClientData(res, 200, dateRes, "TableController - GETBYID");
   }
 
+  async getByArrayId(req, res) {
+    const id = req.query["tableId"];
+
+    const dateRes = await Table.find({ ["_id"]: { $in: id } });
+
+    resClientData(res, 200, dateRes, "TableController - GETBYARRAYID");
+  }
+
   async getByRestaurantId(req, res) {
     const id = req.query["restaurantId"];
+    const status = req.query["status"];
 
-    const dateRes = await Table.find({ ["restaurantId"]: id });
+    let query = { ["restaurantId"]: id };
+    if (status) {
+      query["status"] = status;
+    }
+
+    const dateRes = await Table.find({ ["restaurantId"]: id, ["status"]: status });
 
     resClientData(res, 200, dateRes, "TableController - GETBYRESTAURANTID");
+  }
+
+  async openTable(req, res) {
+    const { tableId } = req.body;
+
+    const dateRes = await Table.updateMany({ ["_id"]: { $in: tableId } }, { status: 2 }, { multi: true });
+
+    resClientData(res, 200, dateRes, "TableController - openTable");
+  }
+
+  async closeTable(req, res) {
+    const { tableId } = req.body;
+
+    const dateRes = await Table.updateMany({ ["_id"]: { $in: tableId } }, { status: 1 }, { multi: true });
+
+    resClientData(res, 200, dateRes, "TableController - closeTable");
   }
 }
 
