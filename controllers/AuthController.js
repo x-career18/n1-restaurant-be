@@ -27,30 +27,34 @@ class AuthController {
 
   async register(req, res) {
     const {
-      fullName,
-      gender,
       username,
+      fullName,
+      email,
       password,
-      avata,
-      status
+      phoneNo,
+      address,
     } = req.body;
 
     const isExist = await User.findOne({ username });
     if (isExist) throw new Error("Tài khoản đã tồn tại");
 
     const model = new User({
-      fullName,
-      gender,
       username,
+      fullName,
+      email,
       password,
-      avata,
-      status,
+      phoneNo,
+      address,
+      avata: null,
+      restaurantId: null,
+      status: 1,
+      gender: null,
       role: 3
     });
 
-    model.save();
+    const resData = await model.save();
 
-    resClientData(res, 200, "AuthController - create");
+    resClientData(res, 200, resData, "AuthController - register");
   }
 
   async me(req, res) {

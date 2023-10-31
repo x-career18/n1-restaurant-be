@@ -29,6 +29,7 @@ class UserController {
       password,
       avata,
       status,
+      restaurantId,
       role: user?.role == 1 ? role : 2
     });
 
@@ -68,31 +69,6 @@ class UserController {
     resClientData(res, 200, "UserController - update");
   }
 
-  async create(req, res) {
-    const {
-      fullName,
-      gender,
-      username,
-      password,
-      avata,
-      status,
-      role
-    } = req.body;
-
-    const model = new User({
-      fullName,
-      gender,
-      username,
-      password,
-      avata,
-      status,
-      role
-    });
-
-    model.save();
-
-    resClientData(res, 200, "UserController - create");
-  }
 }
 
 module.exports = new UserController();
