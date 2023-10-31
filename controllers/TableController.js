@@ -58,7 +58,7 @@ class TableController {
       query["status"] = status;
     }
 
-    const dateRes = await Table.find({ ["restaurantId"]: id, ["status"]: status });
+    const dateRes = await Table.find(query);
 
     resClientData(res, 200, dateRes, "TableController - GETBYRESTAURANTID");
   }
@@ -66,7 +66,7 @@ class TableController {
   async openTable(req, res) {
     const { tableId } = req.body;
 
-    const dateRes = await Table.updateMany({ ["_id"]: { $in: tableId } }, { status: 2 }, { multi: true });
+    const dateRes = await Table.updateMany({ ["_id"]: { $in: tableId } }, { status: 2 }, { multi: true, returnDocument: 'after' });
 
     resClientData(res, 200, dateRes, "TableController - openTable");
   }
