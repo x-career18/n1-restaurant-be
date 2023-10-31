@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const mongooseDelete = require("mongoose-delete");
+const { Seq } = require("./Seq");
 
 const StaffSchema = new Schema(
   {
@@ -31,6 +32,14 @@ const StaffSchema = new Schema(
 StaffSchema.plugin(mongooseDelete, {
   deletedAt: true,
   overrideMethods: "all",
+});
+
+StaffSchema.pre('save', async function () {
+  // Don't increment if this is NOT a newly created document
+  if (!this.isNew) return;
+
+  const count = await Seq.increment('Staff');
+  this._id = count;
 });
 
 const Staff = mongoose.model("Staff", StaffSchema);

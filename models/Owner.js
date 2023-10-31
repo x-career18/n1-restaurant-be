@@ -44,6 +44,14 @@ OwnerSchema.plugin(mongooseDelete, {
   overrideMethods: "all",
 });
 
+OwnerSchema.pre('save', async function () {
+  // Don't increment if this is NOT a newly created document
+  if (!this.isNew) return;
+
+  const count = await Seq.increment('Owner');
+  this._id = count;
+});
+
 const Owner = mongoose.model("Owner", OwnerSchema);
 
 module.exports = {
