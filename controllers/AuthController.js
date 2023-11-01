@@ -62,7 +62,7 @@ class AuthController {
     const isExist = await User.findOne({ _id });
     delete isExist["_doc"].password;
 
-    resClientData(res, 200, isExist, "AuthController - update");
+    resClientData(res, 200, isExist, "AuthController - me");
   }
 }
 
