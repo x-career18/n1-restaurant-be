@@ -3,13 +3,13 @@ const Schema = mongoose.Schema;
 const mongooseDelete = require("mongoose-delete");
 const { Seq } = require("./Seq");
 
-const OrderSchema = new Schema(
+const PaymentSchema = new Schema(
   {
     _id: {
       type: Number,
       alias: "id",
     },
-    reservationId: {
+    restaurantId: {
       type: Number,
       required: true,
     },
@@ -17,39 +17,38 @@ const OrderSchema = new Schema(
       type: Number,
       required: true,
     },
-    status: {
-      type: Number,
-      required: true,
-    },
-    order: {
+    payment: {
       type: [{
         _id: false,
-        item: String,
-        quantity: Number,
-        discount: Number,
-        costPerUnit: Number,
+        method: String,
+        value: Number
       }],
+      required: true,
+    },
+    orderId: {
+      type: Number,
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-OrderSchema.plugin(mongooseDelete, {
+PaymentSchema.plugin(mongooseDelete, {
   deletedAt: true,
   overrideMethods: "all",
 });
 
-OrderSchema.pre('save', async function () {
+PaymentSchema.pre('save', async function () {
   // Don't increment if this is NOT a newly created document
   if (!this.isNew) return;
 
-  const count = await Seq.increment('Order');
+  const count = await Seq.increment('Payment');
   this._id = count;
 });
 
-const Order = mongoose.model("Order", OrderSchema);
+const Payment = mongoose.model("Payment", PaymentSchema);
 
 module.exports = {
-  Order,
-  OrderSchema,
+  Payment,
+  PaymentSchema,
 };
