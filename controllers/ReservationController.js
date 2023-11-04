@@ -18,6 +18,7 @@ class ReservationController {
       order,
       checkinTime,
       expiredTime,
+      status,
     } = req.body;
 
     if (!fullname) throw new Error("FullName Missing.!");
@@ -47,6 +48,7 @@ class ReservationController {
     });
 
     const dateRes = await model.save();
+    await Table.updateMany({ ["_id"]: { $in: tableId } }, { status: 0 }, { multi: true });
 
     resClientData(res, 200, dateRes, "ReservationController - CREATE");
   }
