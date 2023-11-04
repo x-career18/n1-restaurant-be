@@ -10,7 +10,7 @@ const UserSchema = new Schema(
             alias: "id",
         },
         fullName: { type: String, required: true },
-        gender: { type: String, enum: ["male", "female"], required: true },
+        gender: { type: String, enum: ["male", "female", null] },
         username: {
             type: String,
             required: true,
@@ -31,9 +31,11 @@ const UserSchema = new Schema(
         avata: {
             type: String
         },
-        status: {
+        avata: {
+            type: String
+        },
+        restaurantId: {
             type: Number,
-            required: true,
         },
         role: {
             type: Number,

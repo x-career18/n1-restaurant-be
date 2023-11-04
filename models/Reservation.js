@@ -30,7 +30,7 @@ const ReservationSchema = new Schema(
         item: String,
         quantity: Number,
         discount: Number,
-        total: Number,
+        costPerUnit: Number,
       }],
     },
     checkinTime: {
