@@ -31,9 +31,6 @@ const UserSchema = new Schema(
         avata: {
             type: String
         },
-        avata: {
-            type: String
-        },
         restaurantId: {
             type: Number,
         },

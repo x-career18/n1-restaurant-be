@@ -33,7 +33,7 @@ class UserController {
       role: user?.role == 1 ? role : 2
     });
 
-    model.save();
+    await model.save();
 
     resClientData(res, 200, "UserController - create");
   }
@@ -64,7 +64,7 @@ class UserController {
       role: user.role == 1 ? role : 2
     });
 
-    model.save();
+    await model.save();
 
     resClientData(res, 200, "UserController - update");
   }
