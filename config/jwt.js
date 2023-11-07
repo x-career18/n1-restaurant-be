@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
-
-const private_key = "VTAIT";
+const { SECRET_KEY } = process.env;
+const private_key = SECRET_KEY;
 
 class JWT {
     // minus

@@ -23,7 +23,6 @@ class PaymentController {
         const isReservation = await Reservation.findOne({ ["_id"]: isOrderExist.reservationId });
         if (!isReservation) throw new Error("Không có thông tin bàn");
 
-
         const model = new Payment({
             restaurantId: isReservation.restaurantId,
             orderId,
