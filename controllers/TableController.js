@@ -33,6 +33,29 @@ class TableController {
     resClientData(res, 200, dateRes, "TableController - CREATE");
   }
 
+  async update(req, res) {
+    const {
+      id,
+      name,
+      restaurantId,
+      images,
+      status
+    } = req.body;
+
+    if (!id) throw new Error("id Missing.!");
+    const isExist = await Table.findOne({ ["_id"]: id });
+    if (!isExist) throw new Error("Không có thông tin bàn");
+
+    if (name) isExist.name = name;
+    if (restaurantId) isExist.restaurantId = restaurantId;
+    if (images) isExist.images = images;
+    if (status) isExist.status = status;
+
+    const dateRes = await isExist.save();
+
+    resClientData(res, 200, dateRes, "TableController - update");
+  }
+
   async getById(req, res) {
     const id = req.query["tableId"];
 
