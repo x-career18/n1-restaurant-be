@@ -3,7 +3,8 @@ const resClientData = require("../utils/resClientData");
 
 class UserController {
   async index(req, res) {
-    resClientData(res, 200, "UserController - INDEX");
+    const resData = await User.find();
+    resClientData(res, 200, resData, "UserController - INDEX");
   }
 
   async create(req, res) {
