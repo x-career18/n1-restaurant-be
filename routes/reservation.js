@@ -9,6 +9,7 @@ router.get("/getAllByRestaurantId", asyncHandler(reservationController.getAllByR
 router.get("/getByTableId", asyncHandler(reservationController.getByTableId));
 router.get("/getById", asyncHandler(reservationController.getById));
 router.post("/create", asyncHandler(reservationController.create));
+router.post("/update", asyncHandler(reservationController.update));
 router.use("/", asyncHandler(reservationController.index));
 
 module.exports = router;

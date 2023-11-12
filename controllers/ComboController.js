@@ -39,6 +39,40 @@ class ComboController {
     resClientData(res, 200, dateRes, "ComboController - CREATE");
   }
 
+  async update(req, res) {
+    const {
+      id,
+      name,
+      price,
+      catogory,
+      countMenu,
+      description,
+      images
+    } = req.body;
+
+    if (!name) throw new Error("name Missing.!");
+    if (!price) throw new Error("price Missing.!");
+    if (!catogory) throw new Error("catogory Missing.!");
+    if (!countMenu) throw new Error("countMenu Missing.!");
+    if (!description) throw new Error("description Missing.!");
+    if (!images) throw new Error("images Missing.!");
+
+    const isExist = await Combo.findOneAndUpdate(
+      { ["_id"]: id },
+      {
+        name,
+        price,
+        catogory,
+        countMenu,
+        description,
+        images
+      },
+      { returnDocument: 'after' }
+    );
+
+    resClientData(res, 200, isExist, "ComboController - update");
+  }
+
   async getById(req, res) {
     const id = req.query["comboId"];
 

@@ -3,7 +3,8 @@ const resClientData = require("../utils/resClientData");
 
 class UserController {
   async index(req, res) {
-    resClientData(res, 200, "UserController - INDEX");
+    const resData = await User.find();
+    resClientData(res, 200, resData, "UserController - INDEX");
   }
 
   async create(req, res) {
@@ -17,6 +18,16 @@ class UserController {
       role,
       restaurantId
     } = req.body;
+
+    if (!fullName) throw new Error("fullName Missing.!");
+    if (!gender) throw new Error("gender Missing.!");
+    if (!username) throw new Error("username Missing.!");
+    if (!password) throw new Error("password Missing.!");
+    if (!avata) throw new Error("avata Missing.!");
+    if (!status) throw new Error("status Missing.!");
+    if (!role) throw new Error("role Missing.!");
+    if (!restaurantId) throw new Error("restaurantId Missing.!");
+
     const user = req.user;
 
     const isExist = User.findOne({ username });
@@ -33,9 +44,9 @@ class UserController {
       role: user?.role == 1 ? role : 2
     });
 
-    await model.save();
+    const resData = await model.save();
 
-    resClientData(res, 200, "UserController - create");
+    resClientData(res, 200, resData, "UserController - create");
   }
 
   async update(req, res) {
@@ -43,7 +54,6 @@ class UserController {
       id,
       fullName,
       gender,
-      username,
       password,
       avata,
       status,
@@ -51,22 +61,21 @@ class UserController {
     } = req.body;
     const user = req.user;
 
+    if (!id) throw new Error("id Missing.!");
     const isExist = User.findOne({ ["_id"]: id });
     if (isExist) throw new Error("Tài khoản chưa tồn tại");
 
-    const model = new User({
-      fullName,
-      gender,
-      username,
-      password,
-      avata,
-      status,
-      role: user.role == 1 ? role : 2
-    });
+    if (fullName) isExist.fullName = fullName;
+    if (gender) isExist.gender = gender;
+    if (password) isExist.password = password;
+    if (avata) isExist.avata = avata;
+    if (status) isExist.status = status;
+    if (role) isExist.role = role;
+    if (restaurantId) isExist.restaurantId = restaurantId;
 
-    await model.save();
+    const resData = await isExist.save();
 
-    resClientData(res, 200, "UserController - update");
+    resClientData(res, 200, resData, "UserController - update");
   }
 
 }

@@ -53,6 +53,45 @@ class ReservationController {
     resClientData(res, 200, dateRes, "ReservationController - CREATE");
   }
 
+  async update(req, res) {
+    const {
+      id,
+      fullname,
+      phoneNo,
+      restaurantId,
+      tableId,
+      tableCount,
+      order,
+      checkinTime,
+      expiredTime,
+      status,
+    } = req.body;
+
+    if (!id) throw new Error("id Missing.!");
+    const isExist = await Reservation.findOne({ ["_id"]: id });
+    if (!isExist) throw new Error("Không có thông tin bàn");
+
+    if (fullname) isExist.fullname = fullname;
+    if (phoneNo) isExist.phoneNo = phoneNo;
+    if (restaurantId) isExist.restaurantId;
+    if (tableId) {
+      const oldTableId = isExist.tableId;
+      await Table.updateMany({ ["_id"]: { $in: oldTableId } }, { status: 1 }, { multi: true });
+      await Table.updateMany({ ["_id"]: { $in: tableId } }, { status: 0 }, { multi: true });
+      isExist.tableId = tableId;
+    }
+    if (tableCount) isExist.tableCount;
+    if (checkinTime) isExist.checkinTime;
+    if (expiredTime) isExist.expiredTime;
+    if (order?.length > 0) {
+      isExist.order = order;
+    }
+    if (status) isExist.status = status;
+
+    const dateRes = await isExist.save();
+    resClientData(res, 200, dateRes, "ReservationController - update");
+  }
+
   async getById(req, res) {
     const id = req.query["reservationId"];
 

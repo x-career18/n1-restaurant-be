@@ -39,6 +39,33 @@ class RestaurantController {
     resClientData(res, 200, dateRes, "RestaurantController - CREATE");
   }
 
+  async update(req, res) {
+    const {
+      id,
+      name,
+      address,
+      openingTime,
+      closingTime,
+      description,
+      images
+    } = req.body;
+
+    if (!id) throw new Error("id Missing.!");
+    const isExist = await Restaurant.findOne({ ["_id"]: id });
+    if (!isExist) throw new Error("Không có thông tin nhà hàng");
+
+    if (name) isExist.name = name;
+    if (address) isExist.address = address;
+    if (openingTime) isExist.openingTime = openingTime;
+    if (closingTime) isExist.closingTime = closingTime;
+    if (description) isExist.description = description;
+    if (images) isExist.images = images;
+
+    const dateRes = await isExist.save();
+
+    resClientData(res, 200, dateRes, "RestaurantController - update");
+  }
+
   async getById(req, res) {
     const id = req.query["restaurantId"];
 
