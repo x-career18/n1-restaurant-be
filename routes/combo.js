@@ -6,9 +6,8 @@ const authMdw = require("../middlewares/authMdw");
 const checkOwner = require("../middlewares/checkOwner");
 const asyncHandler = require("express-async-handler")
 
-router.use(authMdw);
-router.get("/getById", checkOwner, asyncHandler(comboController.getById));
-router.post("/create", checkOwner, asyncHandler(comboController.create));
-router.use("/", checkOwner, asyncHandler(comboController.index));
+router.get("/getById", authMdw, checkOwner, asyncHandler(comboController.getById));
+router.post("/create", authMdw, checkOwner, asyncHandler(comboController.create));
+router.use("/", asyncHandler(comboController.index));
 
 module.exports = router;

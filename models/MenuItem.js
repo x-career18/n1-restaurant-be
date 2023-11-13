@@ -1,20 +1,26 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const mongooseDelete = require("mongoose-delete");
+const { Seq } = require("./Seq");
 
 const MenuItemSchema = new Schema(
   {
-    id: {
-      type: String,
-      required: true,
+    _id: {
+      type: Number,
+      alias: "id",
     },
     name: {
       type: String,
       required: true,
     },
-    category: {
-      type: Number,
+    image: {
+      type: String,
       required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+      enum: ["đồ nướng", "đồ uống", "đồ thui", "đồ chay", "all"]
     },
     description: {
       type: String,
@@ -31,6 +37,9 @@ const MenuItemSchema = new Schema(
     discount: {
       type: Number,
     },
+    status: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
@@ -38,6 +47,14 @@ const MenuItemSchema = new Schema(
 MenuItemSchema.plugin(mongooseDelete, {
   deletedAt: true,
   overrideMethods: "all",
+});
+
+MenuItemSchema.pre('save', async function () {
+  // Don't increment if this is NOT a newly created document
+  if (!this.isNew) return;
+
+  const count = await Seq.increment('MenuItemSchema');
+  this._id = count;
 });
 
 const MenuItem = mongoose.model("MenuItem", MenuItemSchema);
