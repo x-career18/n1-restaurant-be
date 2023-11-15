@@ -14,7 +14,8 @@ class RestaurantController {
       openingTime,
       closingTime,
       description,
-      images
+      images,
+      status,
     } = req.body;
 
     if (!name) throw new Error("name Missing.!");
@@ -22,7 +23,6 @@ class RestaurantController {
     if (!openingTime) throw new Error("openingTime Missing.!");
     if (!closingTime) throw new Error("closingTime Missing.!");
     if (!description) throw new Error("description Missing.!");
-    if (!images || images.length == 0) throw new Error("images Missing.!");
 
     const model = new Restaurant({
       _id: 0,
@@ -31,7 +31,8 @@ class RestaurantController {
       openingTime,
       closingTime,
       description,
-      images
+      images,
+      status,
     });
 
     const dateRes = await model.save();
@@ -47,7 +48,9 @@ class RestaurantController {
       openingTime,
       closingTime,
       description,
-      images
+      images,
+      status,
+      deleted
     } = req.body;
 
     if (!id) throw new Error("id Missing.!");
@@ -60,6 +63,8 @@ class RestaurantController {
     if (closingTime) isExist.closingTime = closingTime;
     if (description) isExist.description = description;
     if (images) isExist.images = images;
+    isExist.status = status;
+    isExist.deleted = deleted;
 
     const dateRes = await isExist.save();
 

@@ -33,6 +33,10 @@ const RestaurantSchema = new Schema(
       type: [String],
       default: [],
     },
+    status: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );
