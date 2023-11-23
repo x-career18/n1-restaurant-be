@@ -7,9 +7,16 @@ const reservationRouter = require("./reservation");
 const restaurantRouter = require("./restaurant");
 const comboRouter = require("./combo");
 const tableRouter = require("./table");
+const otpRouter = require("./otp");
+const menuRouter = require("./menu");
+const imageRouter = require("./image");
+
+
 function route(app) {
   // app.use(authMdw);
-
+  app.use("/api/v1/image", imageRouter);
+  app.use("/api/v1/menuItem", menuRouter);
+  app.use("/api/v1/otp", otpRouter);
   app.use("/api/v1/payment", paymentRouter);
   app.use("/api/v1/order", orderRouter);
   app.use("/api/v1/auth", authRouter);
