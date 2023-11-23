@@ -1,5 +1,6 @@
 const multer = require("multer");
-const { Readable } = require('node:stream');
+const Stream = require('stream');
+const Readable = new Stream.Readable();
 const cloudinary = require('cloudinary').v2;
 const { CLOUDNAME, API_KEY_CLOUDINARY, API_SECRET_CLOUDINARY, BASEFORDELCLOUDINARY } = process.env;
 
